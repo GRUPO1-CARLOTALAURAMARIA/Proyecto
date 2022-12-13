@@ -17,8 +17,6 @@ DigitalIn boton(D5);
 enum estados {nopulsado,pulsado,encendida} estado;
 #define WAIT_TIME_MS 100
 
-int c=0;
-char cadena[16];
 
 void estadonopulsado  ()
 {
@@ -26,6 +24,10 @@ void estadonopulsado  ()
     estado=pulsado;
 }
 
+void estadopulsado ()
+{
+
+}
 int main()
 {
     //Establecer la tensión de referencia
@@ -35,7 +37,7 @@ int main()
     {
         if (boton==1){ //Si se pulsa el boton mide la temnperatura
 
-        led1=!led1;
+        led1=1;
         float datof=int_temp.read(); //Lee el dato en flotante entre 0 y 1.0. Para 0V 0 y para 3.3V 1.0
         float datoV=int_temp.read_voltage(); //Lee el dato en voltios. De 0 a Vref, 3.3V
         int datoI=int_temp.read_u16(); //Lee el dato en entero como si el ADC fuese de 16bits, aunque no lo sea.
@@ -43,12 +45,8 @@ int main()
         
         rgbLCD.setRGB(0xff, 0xff, 0xff);                 //set the color 
         rgbLCD.locate(0,0);
-        rgbLCD.print("La temperatura es ");
-        c++;
-        sprintf(cadena,"%d",c);
+        rgbLCD.print("Temperatura= ");
         rgbLCD.locate(0,1);
-        rgbLCD.print(cadena);
-        led1 = !led1;
         thread_sleep_for(WAIT_TIME_MS);
         //Ejemplos de leer una señal analógica
 
@@ -60,7 +58,9 @@ int main()
 
         thread_sleep_for(WAIT_TIME_MS);
         }
-       
+       else {
+           led2=1;
+       }
 
        
     }
