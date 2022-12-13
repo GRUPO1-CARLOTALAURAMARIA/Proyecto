@@ -47,7 +47,10 @@ int main()
         
         rgbLCD.setRGB(0xff, 0xff, 0xff);                 //set the color 
         rgbLCD.locate(0,0);
-        rgbLCD.print("Temperatura= ");
+        rgbLCD.print("Temperatura=");
+        char datos[8];
+        sprintf(datos,"%f",temp);
+         rgbLCD.print(datos);
         rgbLCD.locate(0,1);
         thread_sleep_for(WAIT_TIME_MS);
         //Ejemplos de leer una señal analógica
