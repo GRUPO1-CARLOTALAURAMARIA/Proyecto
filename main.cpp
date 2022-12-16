@@ -82,10 +82,28 @@ int main()
                  estado=encendida;
                  led1=0;
                  led2=1;
-                anchoPulso=datoV*2500+500;
-                servomotor.pulsewidth_us(anchoPulso);
                 }
-    
+            if(temp<=15)
+            {
+             anchoPulso=0;
+             servomotor.pulsewidth_us(anchoPulso);
+            }
+            else if(15<datoV<=20) {
+                anchoPulso=1000;
+                servomotor.pulsewidth_us(anchoPulso);
+
+            }
+            else if(20<datoV<=25) {
+                anchoPulso=2000;
+                servomotor.pulsewidth_us(anchoPulso);
+
+            }
+        
+            else {
+                anchoPulso=3000;
+                servomotor.pulsewidth_us(anchoPulso);
+
+            }
         }
        
     }
