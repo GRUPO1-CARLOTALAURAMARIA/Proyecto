@@ -15,14 +15,12 @@ AnalogIn int_temp(ADC_TEMP);
 DigitalOut led1(D2);
 DigitalOut led2(D3);
 DigitalIn boton(D5);
+PwmOut servomotor(A2);
 enum estados {apagada,midiendo,encendida} estado;
 #define WAIT_TIME_MS 100
 
-
 void estadoapagada  ()
 {
-    led1=1;
-    led2=0;
     if (boton==1)
     estado=midiendo;
 }
@@ -35,7 +33,6 @@ void estadomidiendo  ()
 
 void estadoencendida ()
 {
-    
     if (boton==1)
     estado=midiendo;
 
@@ -64,18 +61,18 @@ int main()
         sprintf(datos,"%f",temp);
         rgbLCD.print(datos);
         rgbLCD.locate(0,1);
-        thread_sleep_for(WAIT_TIME_MS);
         //Ejemplos de leer una señal analógica
         printf("El dato leido entre 0 y 1 es: %f\n",datof);
         printf("El dato leido en voltios entre 0 y 3.3 es: %f\n",datoV);
         printf("El dato leido del ADC de 16bits es: %d\n",datoI);
         printf("La temperatura es: %fCº\n",temp);
         printf("*************************************\n");
-
-        thread_sleep_for(WAIT_TIME_MS);
-
+        servomotor.period_ms(20);
+        int anchoPulso;
+        wait_us(1000000);
             if(temp>26)
             {
+            
                 led1=1;
                 led2=0;
                 estado=apagada;
@@ -85,6 +82,8 @@ int main()
                  estado=encendida;
                  led1=0;
                  led2=1;
+                anchoPulso=datoV*2500+500;
+                servomotor.pulsewidth_us(anchoPulso);
                 }
     
         }
