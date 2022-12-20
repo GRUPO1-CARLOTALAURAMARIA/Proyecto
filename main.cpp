@@ -21,35 +21,13 @@ enum estados {apagada,midiendo,encendida} estado;
 
 void estadoapagada  ()
 {
-    if (boton==1)
-    estado=midiendo;
+   if (boton==1){ //Si se pulsa el boton mide la temnperatura
+        estado=midiendo;
+        }
 }
 
 void estadomidiendo  ()
 {
-    if (boton==1)
-    estado=midiendo;
-}
-
-void estadoencendida ()
-{
-    if (boton==1)
-    estado=midiendo;
-
-}
-int main()
-{
-    //Establecer la tensión de referencia
-    int_temp.set_reference_voltage(3.3);
-    estado=apagada;
-    led1=1;
-    led2=0;
-    while (true)
-    {
-        if (boton==1){ //Si se pulsa el boton mide la temnperatura
-        estado=midiendo;
-        led1=0;
-        led2=0;
         float datof=int_temp.read(); //Lee el dato en flotante entre 0 y 1.0. Para 0V 0 y para 3.3V 1.0
         float datoV=int_temp.read_voltage(); //Lee el dato en voltios. De 0 a Vref, 3.3V
         int datoI=int_temp.read_u16(); //Lee el dato en entero como si el ADC fuese de 16bits, aunque no lo sea.
@@ -83,7 +61,7 @@ int main()
                  led1=0;
                  led2=1;
                 }
-            if(temp<=15)
+                if(temp<=15)
             {
              anchoPulso=0;
              servomotor.pulsewidth_us(anchoPulso);
@@ -104,7 +82,38 @@ int main()
                 servomotor.pulsewidth_us(anchoPulso);
 
             }
+}
+
+void estadoencendida ()
+{
+    if (boton==1)
+    estado=midiendo;
+
+}
+int main()
+{
+    //Establecer la tensión de referencia
+    int_temp.set_reference_voltage(3.3);
+    estado=apagada;
+    led1=1;
+    led2=0;
+    while (true)
+    {
+         switch(estado) 
+        {
+            case apagada:
+                estadoapagada();
+                break;
+            case encendida:
+                estadoencendida();
+                break;
+            case midiendo:
+                estadomidiendo();
+                break;
         }
+
+            
+        
        
     }
 }
