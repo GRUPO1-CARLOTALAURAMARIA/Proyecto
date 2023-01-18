@@ -70,7 +70,7 @@ void estadomidiendo() { //Estado midiendo
   float r_t=(temp_ampli*240000)/(2.5);
   float temp_final=4190.0/(log10(r_t/100000)+4190.0/25);
   float dif_temp=temp-temp_final;
-  printf("La diferencia de  es: %f\n ",temp_final);
+  printf("La diferencia de  es: %f\n ",dif_temp);
   wait_us(1000000); 
   if (temp >= 26) { //Si la temperatura medida es mayor de 25ºC
     led1 = 1;      //Encendemos el led rojo, que significa que la calefacción se mantendrá apagada.
