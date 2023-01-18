@@ -34,7 +34,7 @@ enum estados { apagada, midiendo, encendida } estado; //Definimos los diferentes
 void estadoapagada() {  //Estado apagada
 led1=1; //Luz roja encendida
 led2=0; // Luz azul apgada
-void clear(); //Limpiamos pantalla
+rgbLCD.clear(); //Limpiamos pantalla.
 rgbLCD.setRGB(0xff, 0xff, 0xff); // set the color
 rgbLCD.locate(0, 0);
 rgbLCD.print("Apagada"); //Se muestra por pantalla que la calefacción está apagada
@@ -66,11 +66,11 @@ void estadomidiendo() { //Estado midiendo
   serial_port_hc06.write(datos, l);
   servomotor.period_ms(20);
   int anchoPulso; //Se crea una variable entera llamada anchoPulso para regular el servomotor
-  float temp_ampli=ampli.read()
-  int r_t=(temp*240000)/(2.5);
-  int temp_final=4190/(log10(r_t/100000)+4190/25);
-  int dif_temp=temp-temp_final;
-  printf("La diferencia de temperatura es:",dif_temp);
+  float temp_ampli=ampli.read();
+  float r_t=(temp_ampli*240000)/(2.5);
+  float temp_final=4190.0/(log10(r_t/100000)+4190.0/25);
+  float dif_temp=temp-temp_final;
+  printf("La diferencia de  es: %f\n ",temp_final);
   wait_us(1000000); 
   if (temp >= 26) { //Si la temperatura medida es mayor de 25ºC
     led1 = 1;      //Encendemos el led rojo, que significa que la calefacción se mantendrá apagada.
