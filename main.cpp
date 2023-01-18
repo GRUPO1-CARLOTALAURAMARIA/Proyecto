@@ -19,6 +19,7 @@ char datoRx[1];
 Grove_LCD_RGB_Backlight rgbLCD(PB_9, PB_8); //Se define la pantalla LCD
 
 AnalogIn int_temp(ADC_TEMP); // Se define una entrada analógica correspondiente al sensor de la temperatura
+AnalogIn ampli(A3);
 DigitalOut led1(D2);         // Se define una sálida digital correspondiente al led rojo
 DigitalOut led2(D3);         // Se define una sálida digital correspondeinte al led azul
 DigitalIn boton(D5);
@@ -65,6 +66,11 @@ void estadomidiendo() { //Estado midiendo
   serial_port_hc06.write(datos, l);
   servomotor.period_ms(20);
   int anchoPulso; //Se crea una variable entera llamada anchoPulso para regular el servomotor
+  float temp_ampli=ampli.read()
+  int r_t=(temp*240000)/(2.5);
+  int temp_final=4190/(log10(r_t/100000)+4190/25);
+  int dif_temp=temp-temp_final;
+  printf("La diferencia de temperatura es:",dif_temp);
   wait_us(1000000); 
   if (temp >= 26) { //Si la temperatura medida es mayor de 25ºC
     led1 = 1;      //Encendemos el led rojo, que significa que la calefacción se mantendrá apagada.
