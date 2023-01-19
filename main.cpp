@@ -55,7 +55,7 @@ void estadomidiendo() { //Estado midiendo
   rgbLCD.locate(0, 0);
   rgbLCD.print("Temperatura="); //Sacamos por pantalla un letrero que muestre Temperatura= 
   char datos[8];
-  int l=sprintf(datos, "%f\n", temp);
+  int l=sprintf(datos, "%f\n", temp); //Se crea una variable l con la temperatura para enviarla por bluetooth
   rgbLCD.print(datos);
   rgbLCD.locate(0, 1);
   printf("El dato leido entre 0 y 1 es: %f\n", datof);
@@ -63,14 +63,14 @@ void estadomidiendo() { //Estado midiendo
   printf("El dato leido del ADC de 16bits es: %d\n", datoI);
   printf("La temperatura es: %fCº\n", temp);
   printf("*************************************\n");
-  serial_port_hc06.write(datos, l);
+  serial_port_hc06.write(datos, l); //Se manda por bluetooth al dispositivo conectado la Temperatura.
   servomotor.period_ms(20);
   int anchoPulso; //Se crea una variable entera llamada anchoPulso para regular el servomotor
-  float temp_ampli=ampli.read();
-  float r_t=(temp_ampli*240000)/(2.5);
-  float temp_final=4190.0/(log10(r_t/100000)+4190.0/25);
-  float dif_temp=temp-temp_final;
-  printf("La diferencia de  es: %f\n ",dif_temp);
+  float temp_ampli=ampli.read(); //Se crea una variable que nos permita guardar el dato leido por la NTC
+  float r_t=(temp_ampli*240000)/(2.5); //Se calcula la resistencia T
+  float temp_final=4190.0/(log10(r_t/100000)+4190.0/25); // Y a partir de esta y utilizando la ecuación correspondiente se cálcula la temperatura final obtenida por la NTC
+  float dif_temp=temp-temp_final; //Con ambas temperaturas calculadas se determina la diferencia
+  printf("La diferencia de  es: %f\n ",dif_temp); //Y se imprime por pantalla esta diferencia
   wait_us(1000000); 
   if (temp >= 26) { //Si la temperatura medida es mayor de 25ºC
     led1 = 1;      //Encendemos el led rojo, que significa que la calefacción se mantendrá apagada.
